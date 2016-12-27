@@ -23,10 +23,10 @@ class RedmineOauthController < AccountController
       user_info = JWT.decode(token.token, nil, false)
       logger.error user_info
       
-      email = user_info['unique_name']
+      email = user_info.first['unique_name']
 
       if email
-        checked_try_to_login email, user_info
+        checked_try_to_login email, user_info.first
       else
         flash[:error] = l(:notice_no_verified_email_we_could_use)
         redirect_to signin_path
@@ -47,7 +47,9 @@ class RedmineOauthController < AccountController
     params[:back_url] = session[:back_url]
     session.delete(:back_url)
 
-    user = User.find_or_initialize_by_mail(email)
+    user = User.joins(:email_addresses)
+               .where('email_addresses.address' => email, 'email_addresses.is_default' => true)
+               .first_or_initialize
     if user.new_record?
       # Self-registration off
       redirect_to(home_url) && return unless Setting.self_registration?
