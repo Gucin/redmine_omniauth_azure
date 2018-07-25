@@ -6,8 +6,8 @@ class RedmineOauthController < AccountController
   include Helpers::MailHelper
   include Helpers::Checker
   def oauth_azure
-    if Setting.plugin_redmine_omniauth_azure[:azure_oauth_authentication]
-      session[:back_url] = params[:back_url]
+    if Setting.plugin_redmine_omniauth_azure['azure_oauth_authentication']
+      session['back_url'] = params['back_url']
       redirect_to oauth_client.auth_code.authorize_url(:redirect_uri => oauth_azure_callback_url, :scope => scopes)
     else
       password_authentication
@@ -15,11 +15,11 @@ class RedmineOauthController < AccountController
   end
 
   def oauth_azure_callback
-    if params[:error]
-      flash[:error] = l(:notice_access_denied)
+    if params['error']
+      flash['error'] = l(:notice_access_denied)
       redirect_to signin_path
     else
-      token = oauth_client.auth_code.get_token(params[:code], :redirect_uri => oauth_azure_callback_url, :resource => "00000002-0000-0000-c000-000000000000")
+      token = oauth_client.auth_code.get_token(params['code'], :redirect_uri => oauth_azure_callback_url, :resource => "00000002-0000-0000-c000-000000000000")
       user_info = JWT.decode(token.token, nil, false)
       logger.error user_info
       
@@ -28,7 +28,7 @@ class RedmineOauthController < AccountController
       if email
         checked_try_to_login email, user_info.first
       else
-        flash[:error] = l(:notice_no_verified_email_we_could_use)
+        flash['error'] = l(:notice_no_verified_email_we_could_use)
         redirect_to signin_path
       end
     end
@@ -38,13 +38,13 @@ class RedmineOauthController < AccountController
     if allowed_domain_for?(email)
       try_to_login email, user
     else
-      flash[:error] = l(:notice_domain_not_allowed, :domain => parse_email(email)[:domain])
+      flash['error'] = l(:notice_domain_not_allowed, :domain => parse_email(email)['domain'])
       redirect_to signin_path
     end
   end
 
   def try_to_login email, info
-    params[:back_url] = session[:back_url]
+    params['back_url'] = session['back_url']
     session.delete(:back_url)
 
     user = User.joins(:email_addresses)
@@ -88,10 +88,10 @@ class RedmineOauthController < AccountController
   end
 
   def oauth_client
-    @client ||= OAuth2::Client.new(settings[:client_id], settings[:client_secret],
+    @client ||= OAuth2::Client.new(settings['client_id'], settings['client_secret'],
       :site => 'https://login.windows.net',
-      :authorize_url => '/' + settings[:tenant_id] + '/oauth2/authorize',
-      :token_url => '/' + settings[:tenant_id] + '/oauth2/token')
+      :authorize_url => '/' + settings['tenant_id'] + '/oauth2/authorize',
+      :token_url => '/' + settings['tenant_id'] + '/oauth2/token')
   end
 
   def settings
