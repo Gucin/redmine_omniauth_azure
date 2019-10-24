@@ -8,7 +8,11 @@ class RedmineOauthController < AccountController
   def oauth_azure
     if Setting.plugin_redmine_omniauth_azure['azure_oauth_authentication']
       session['back_url'] = params['back_url']
-      redirect_to oauth_client.auth_code.authorize_url(:redirect_uri => oauth_azure_callback_url, :scope => scopes)
+      if Setting.plugin_redmine_omniauth_azure['redirect_uri'] && !Setting.plugin_redmine_omniauth_azure['redirect_uri'].empty?
+		redirect_to oauth_client.auth_code.authorize_url(:redirect_uri => Setting.plugin_redmine_omniauth_azure['redirect_uri'], :scope => scopes)
+	  else
+		redirect_to oauth_client.auth_code.authorize_url(:redirect_uri => oauth_azure_callback_url, :scope => scopes)
+	  end
     else
       password_authentication
     end
@@ -19,8 +23,12 @@ class RedmineOauthController < AccountController
       flash['error'] = l(:notice_access_denied)
       redirect_to signin_path
     else
-      token = oauth_client.auth_code.get_token(params['code'], :redirect_uri => oauth_azure_callback_url, :resource => "00000002-0000-0000-c000-000000000000")
-      user_info = JWT.decode(token.token, nil, false)
+      if Setting.plugin_redmine_omniauth_azure['redirect_uri'] && !Setting.plugin_redmine_omniauth_azure['redirect_uri'].empty?
+			token = oauth_client.auth_code.get_token(params['code'], :redirect_uri => Setting.plugin_redmine_omniauth_azure['redirect_uri'], :resource => "00000002-0000-0000-c000-000000000000")
+      else 
+			token = oauth_client.auth_code.get_token(params['code'], :redirect_uri => oauth_azure_callback_url, :resource => "00000002-0000-0000-c000-000000000000")
+	  end
+	  user_info = JWT.decode(token.token, nil, false)
       logger.error user_info
       
       email = user_info.first['unique_name']
