@@ -15,6 +15,10 @@
   <%= text_area_tag "settings[allowed_domains]", @settings['allowed_domains'], :rows => 5 %>
 </p>
 <p>
+  <label>Redirect uri</label>
+  <%= text_field_tag 'settings[redirect_uri]', @settings['redirect_uri'] %>
+</p>
+<p>
   <label>Oauth authentication:</label>
   <%= check_box_tag "settings[azure_oauth_authentication]", true, @settings['azure_oauth_authentication'] %>
 </p>

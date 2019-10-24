@@ -40,6 +40,7 @@ To make plugin to work properly
 * Login as administrator. In top menu select "Administration". Choose menu item Plugins. In plugins list choose "Redmine Omniauth Azure plugin". Press "Configure".
 * Fill Сlient ID & Client Secret & Tenant ID by corresponding values, obtained by Azure.
 * Put the check "Oauth authentification", to make it possible to login through Azure. Click Apply. Users can now to use apportunity to login via Azure.
+* redirect_uri is optional , if you leave empty it will use redmine_url_root but if you fill this field the value introduced will be used as parameter in the calls.
 
 Additionaly
 * Setup value Autologin in Settings on tab Authentification
