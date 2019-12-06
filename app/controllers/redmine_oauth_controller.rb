@@ -38,7 +38,7 @@ class RedmineOauthController < AccountController
     if allowed_domain_for?(email)
       try_to_login email, user
     else
-      flash['error'] = l(:notice_domain_not_allowed, :domain => parse_email(email)['domain'])
+      flash['error'] = l(:notice_domain_not_allowed, :domain => parse_email(email)[:domain])
       redirect_to signin_path
     end
   end
@@ -82,7 +82,7 @@ class RedmineOauthController < AccountController
       if user.active?
         successful_authentication(user)
       else
-        account_pending
+        account_pending(user)
       end
     end
   end
