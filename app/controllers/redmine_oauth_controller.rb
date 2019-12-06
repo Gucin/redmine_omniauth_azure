@@ -54,7 +54,13 @@ class RedmineOauthController < AccountController
       # Self-registration off
       redirect_to(home_url) && return unless Setting.self_registration?
       # Create on the fly
-      user.firstname, user.lastname = info["name"].split(' ') unless info['name'].nil?
+      case Setting.user_format
+      when :lastname_firstname,:lastnamefirstname,:lastname_comma_firstname,:lastname
+        user.lastname, user.firstname = info["name"].split(' ') unless info['name'].nil?
+      else
+        user.firstname, user.lastname = info["name"].split(' ') unless info['name'].nil?
+      end
+
       user.firstname ||= info["name"]
       user.lastname ||= info["name"]
       user.mail = email
