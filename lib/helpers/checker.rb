@@ -5,7 +5,7 @@ module Helpers
       return unless allowed_domains
       allowed_domains = allowed_domains.split
       return true if allowed_domains.empty?
-      allowed_domains.index(parse_email(email)['domain'])
+      allowed_domains.index(parse_email(email)[:domain])
     end
   end
 end
