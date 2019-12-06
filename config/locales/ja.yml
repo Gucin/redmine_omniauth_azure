@@ -5,3 +5,8 @@ ja:
   login_via_azure: "Azureで認証"
   notice_no_verified_email_we_could_use: "Azureから提供された確認済みのメールはありません。azure.comでメールアドレスを確認してく
 ださい。"
+  client_id: "クライアントID"
+  client_secret: "クライアントシークレット"
+  tenant_id: "テナントID"
+  allowed_domains: "認証を許可するドメイン"
+  azure_oauth_authentication: "プラグインの有効化"

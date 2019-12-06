@@ -4,3 +4,8 @@ en:
   notice_azure_access_denied: "You must allow to use you Azure credentials to enter this site."
   login_via_azure: "Login via Azure"
   notice_no_verified_email_we_could_use: "No verified email provided by Azure, go and verify you email address on azure.com"
+  client_id: "Client ID"
+  client_secret: "Client Secret"
+  tenant_id: "Tenant ID"
+  allowed_domains: "Available domains"
+  azure_oauth_authentication: "Oauth authentication"
