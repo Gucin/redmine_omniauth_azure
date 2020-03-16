@@ -1,0 +1,12 @@
+ja:
+  notice_unable_to_obtain_azure_credentials: "Azureから資格情報を取得できません。"
+  notice_domain_not_allowed: "%{domain} ドメインを使用してログインすることはできません。"
+  notice_azure_access_denied: "このサイトにログインするにはAzure資格情報の使用を許可する必要があります。"
+  login_via_azure: "Azureで認証"
+  notice_no_verified_email_we_could_use: "Azureから提供された確認済みのメールはありません。azure.comでメールアドレスを確認してく
+ださい。"
+  client_id: "クライアントID"
+  client_secret: "クライアントシークレット"
+  tenant_id: "テナントID"
+  allowed_domains: "認証を許可するドメイン"
+  azure_oauth_authentication: "プラグインの有効化"
